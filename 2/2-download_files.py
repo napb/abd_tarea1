@@ -14,11 +14,12 @@ dir_name = "../downloads"
 l = [
     "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Diciembre-2019.zip",
     "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Noviembre-2019.zip",
-    "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Octubre-2019.zip",
+    "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Octubre-2019.zip"
 ]
 
 os.makedirs(dir_name, exist_ok=True)
 
+print("Descarga de archivos")
 for i in l:
     r = requests.get(i)
     z = zipfile.ZipFile(io.BytesIO(r.content))
@@ -26,9 +27,11 @@ for i in l:
     z.close()
     print(i)
 
+print("------------------------------")
+print("Limpieza de archivos que no corresponden a CSV")
 
-test = os.listdir(dir_name)
-
-for item in test:
+for item in os.listdir(dir_name):
     if not item.endswith(".csv"):
         os.remove(os.path.join(dir_name, item))
+
+print("------------------------------")
