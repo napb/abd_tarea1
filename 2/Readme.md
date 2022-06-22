@@ -41,10 +41,4 @@ OPTIONS(
 )
 ```
 
-3- Carga de datos en BQ
-``` shell
-bq load --null_marker=null --skip_leading_rows=1 --source_format=CSV --field_delimiter=";" --allow_quoted_newlines=TRUE --allow_jagged_rows=TRUE data_chile.asistencia ./down/[file_csv].csv
-```
-
-
-
+3- ejecucion de `2-load-into-bq.py`
