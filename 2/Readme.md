@@ -43,7 +43,7 @@ OPTIONS(
 
 3- Carga de datos en BQ
 ``` shell
-bq load --null_marker=null --skip_leading_rows=1 --source_format=CSV --field_delimiter=";" --allow_quoted_newlines=TRUE --allow_jagged_rows=TRUE data_chile.asistencia ./down/20190514_Asistencia_Marzo_2019_20190415_PUBL.csv
+bq load --null_marker=null --skip_leading_rows=1 --source_format=CSV --field_delimiter=";" --allow_quoted_newlines=TRUE --allow_jagged_rows=TRUE data_chile.asistencia ./down/[file_csv].csv
 ```
 
 
