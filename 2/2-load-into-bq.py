@@ -9,5 +9,6 @@ for f in os.listdir("../downloads"):
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         o, _ = process.communicate()
         print(o)
+        print("--------")
 
 print("------------------------------")
