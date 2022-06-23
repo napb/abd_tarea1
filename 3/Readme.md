@@ -1,3 +1,14 @@
+1- ejecuta para limpiar la asistencia 
+
+```
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET
+  ASIS_PROMEDIO = ((DIAS_ASISTIDOS * 100) / DIAS_TRABAJADOS)
+WHERE 
+  RBD IS NOT NULL
+AND 
+  DIAS_TRABAJADOS != 0;
+```
+
 1-  ejecuta en BQ para añadir nuevas columnas LAT, LONG
 ``` bigquery
 ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LAT_COMUNA STRING;
