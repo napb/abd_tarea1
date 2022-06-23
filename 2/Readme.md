@@ -1,4 +1,4 @@
-1- ejecucion de `2-download_files.py`
+1- ejecucion de `python3 2-download_files.py`
 
 2- Creacion de tabla asistencia
 ``` bigquery
@@ -41,4 +41,4 @@ OPTIONS(
 )
 ```
 
-3- ejecucion de `2-load-into-bq.py`
+3- ejecucion de `python3 2-load-into-bq.py`
