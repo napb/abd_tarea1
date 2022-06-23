@@ -6,7 +6,7 @@ ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_COMUNA 
 
 2- ejecuta ```3-load-comunas-file.py```
 
-3- ejecuta en BQ
+3- ejecuta en BQ para modificar tabla asistencia la latitud y longitud
 ``` bigquery
 UPDATE `infinite-lens-352300.data_chile.asistencia` a SET
   a.LAT_COMUNA = b.LATTITUD,
