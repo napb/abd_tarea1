@@ -9,7 +9,8 @@ ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_COMUNA 
 3- ejecuta en BQ
 ``` bigquery
 UPDATE `infinite-lens-352300.data_chile.asistencia` a SET
-  a.LAT_COMUNA = b.LATTITUD
+  a.LAT_COMUNA = b.LATTITUD,
+  a.LONG_COMUNA = b.LONGITUD
 FROM 
   `infinite-lens-352300.data_chile.info_comunas` b
 WHERE 
@@ -17,7 +18,7 @@ WHERE
 AND 
   a.RBD IS NOT NULL
 ```
-
+deben ser 354 registros
 ``` bigquery
 SELECT NOM_COM_RBD,LAT_COMUNA,LONG_COMUNA  FROM `infinite-lens-352300.data_chile.asistencia`
 WHERE 
