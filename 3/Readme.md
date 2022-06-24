@@ -1,21 +1,19 @@
-1- ejecuta para limpiar la asistencia 
-
+1- ejecuta para limpiar la asistencia
 ```
 UPDATE `infinite-lens-352300.data_chile.asistencia` SET
   ASIS_PROMEDIO = ((DIAS_ASISTIDOS * 100) / DIAS_TRABAJADOS)
 WHERE 
-  RBD IS NOT NULL
+  MES_ESCOLAR IS NOT NULL
 AND 
   DIAS_TRABAJADOS != 0;
 ```
 
-1-  ejecuta en BQ para añadir nuevas columnas LAT, LONG
+2-  ejecuta en BQ para añadir nuevas columnas LAT, LONG
 ``` bigquery
 ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LAT_COMUNA STRING;
 ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_COMUNA STRING;
 ```
 
-2- ejecuta ```3-load-comunas-file.py```
 
 3- ejecuta en BQ para modificar tabla asistencia la latitud y longitud
 ``` bigquery
@@ -27,9 +25,9 @@ FROM
 WHERE 
   a.NOM_COM_RBD = UPPER(b.NOMBRE)
 AND 
-  a.RBD IS NOT NULL
+  a.MES_ESCOLAR IS NOT NULL
 ```
-deben ser 354 registros
+deben ser 345 registros (con todas las comunas)
 ``` bigquery
 SELECT NOM_COM_RBD,LAT_COMUNA,LONG_COMUNA  FROM `infinite-lens-352300.data_chile.asistencia`
 WHERE 
@@ -41,7 +39,6 @@ GROUP BY
 ```
 
 4- DDL vista asistencia con data limpia
-
 ``` bigquery
 
 CREATE OR REPLACE VIEW data_chile.v_asistencia(
@@ -178,8 +175,8 @@ SELECT
       WHEN 4 THEN 'EDUCACIÓN ESPECIAL'
       WHEN 5 THEN 'ENSEÑANZA MEDIA HUMANISTICO CIENTIFICA JOVENES'
       WHEN 6 THEN 'ENSEÑANZA MEDIA HUMANISTICO CIENTIFICA ADULTOS'
-      WHEN 7 THEN 'ENSEÑANZA MEDIA TÉCNICO PROFESIONAL y Artística JOVENES'
-      WHEN 8 THEN 'ENSEÑANZA MEDIA TÉCNICO PROFESIONAL y Artística ADULTOS'
+      WHEN 7 THEN 'ENSEÑANZA MEDIA TÉCNICO PROFESIONAL y ARTISTICA JOVENES'
+      WHEN 8 THEN 'ENSEÑANZA MEDIA TÉCNICO PROFESIONAL y ARTISTICA ADULTOS'
       ELSE 'N/A'
       END
       AS COD_ENSE2_GLOSA,
@@ -398,7 +395,7 @@ SELECT
   FROM
     `infinite-lens-352300.data_chile.asistencia` 
   WHERE 
-    RBD IS NOT NULL
+    MES_ESCOLAR IS NOT NULL
   AND (
     AGNO IS NOT NULL OR
     MES_ESCOLAR IS NOT NULL OR
