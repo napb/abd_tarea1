@@ -15,3 +15,9 @@ bashCommand = "bq load --autodetect --source_format=CSV --field_delimiter=, data
 process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 o, _ = process.communicate()
 print(o)
+
+
+bashCommand = "rm -rf ../out.csv"
+process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+o, _ = process.communicate()
+print(o)
