@@ -1,3 +1,5 @@
+0- poner lo que sea para descargar (unrar en linux) //TODO
+
 1- ejecucion de `python3 2-download_files.py`
 
 2- Creacion de tabla asistencia
@@ -35,7 +37,7 @@ CREATE TABLE
   ASIS_PROMEDIO FLOAT64
 )
 PARTITION BY  
-  RANGE_BUCKET(RBD, GENERATE_ARRAY(0, 100, 10))
+  RANGE_BUCKET(MES_ESCOLAR, GENERATE_ARRAY(0, 100, 10))
 OPTIONS(
   require_partition_filter=true
 )

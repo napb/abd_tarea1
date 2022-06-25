@@ -1,5 +1,5 @@
 1- ejecuta para limpiar la asistencia
-```
+``` bigquery
 UPDATE `infinite-lens-352300.data_chile.asistencia` SET
   ASIS_PROMEDIO = ((DIAS_ASISTIDOS * 100) / DIAS_TRABAJADOS)
 WHERE 
@@ -29,9 +29,14 @@ AND
 ```
 deben ser 345 registros (con todas las comunas)
 ``` bigquery
-SELECT NOM_COM_RBD,LAT_COMUNA,LONG_COMUNA  FROM `infinite-lens-352300.data_chile.asistencia`
+SELECT
+    NOM_COM_RBD,
+    LAT_COMUNA,
+    LONG_COMUNA  
+FROM 
+  `infinite-lens-352300.data_chile.asistencia`
 WHERE 
-  RBD IS NOT NULL
+  MES_ESCOLAR IS NOT NULL
 GROUP BY
   NOM_COM_RBD,
   LAT_COMUNA,
@@ -75,7 +80,9 @@ CREATE OR REPLACE VIEW data_chile.v_asistencia(
     NOM_COM_ALU,
     DIAS_ASISTIDOS,
     DIAS_TRABAJADOS,
-    ASIS_PROMEDIO
+    ASIS_PROMEDIO,
+    LAT_COMUNA, 
+    LONG_COMUNA
 ) AS (
 SELECT
     AGNO,
@@ -391,7 +398,9 @@ SELECT
     NOM_COM_ALU,
     DIAS_ASISTIDOS,
     DIAS_TRABAJADOS,
-    ASIS_PROMEDIO
+    ASIS_PROMEDIO,
+    LAT_COMUNA, 
+    LONG_COMUNA
   FROM
     `infinite-lens-352300.data_chile.asistencia` 
   WHERE 
