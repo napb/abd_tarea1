@@ -13,7 +13,18 @@ AND
 ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LAT_COMUNA STRING;
 ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_COMUNA STRING;
 ```
+2.1- ejecuta para limpiar la tabla info_comunas
 
+``` bigquery
+update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "CALERA" WHERE UPPER(NOMBRE)  =   "LA CALERA";
+update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "MAULLIN" WHERE UPPER(NOMBRE)  =   "MAULLIN";
+update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "TREHUACO" WHERE UPPER(NOMBRE)  =   "TREGUACO";
+update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "PAIGUANO" WHERE UPPER(NOMBRE)  =   "PAIHUANO";
+update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "VICHUQUEN" WHERE UPPER(NOMBRE)  =   "VICHUQUEN";
+update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "LLAILLAY" WHERE UPPER(NOMBRE)  =   "LLAY-LLAY";
+update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "TILTIL" WHERE UPPER(NOMBRE)  =   "TIL TIL";
+update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "RANQUIL" WHERE UPPER(NOMBRE)  =   "RANQUIL";
+```
 
 3- ejecuta en BQ para modificar tabla asistencia la latitud y longitud
 ``` bigquery
