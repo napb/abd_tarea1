@@ -12,6 +12,7 @@ AND
 ``` bigquery
 ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LAT_COMUNA STRING;
 ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_COMUNA STRING;
+ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN TIPO_REGION STRING;
 ```
 2.1- ejecuta para limpiar la tabla info_comunas
 
@@ -54,6 +55,37 @@ GROUP BY
   LONG_COMUNA
 ```
 
+``` bigquery
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET 
+  TIPO_REGION =
+  CASE  
+    WHEN 
+      COD_REG_RBD = 1 OR 
+      COD_REG_RBD = 3 OR 
+      COD_REG_RBD = 2 OR
+      COD_REG_RBD = 4 OR
+      COD_REG_RBD = 15
+        THEN 'NORTE'
+    WHEN  
+      COD_REG_RBD = 5 OR 
+      COD_REG_RBD = 6 OR 
+      COD_REG_RBD = 7 OR
+      COD_REG_RBD = 13 OR
+      COD_REG_RBD = 16 
+        THEN 'CENTRO'
+    WHEN 
+      COD_REG_RBD = 8 OR 
+      COD_REG_RBD = 9 OR 
+      COD_REG_RBD = 10 OR 
+      COD_REG_RBD = 11 OR
+      COD_REG_RBD = 12 OR
+      COD_REG_RBD = 14 
+        THEN 'SUR'
+    END
+WHERE 
+  MES_ESCOLAR IS NOT NULL;
+```
+
 4- DDL vista asistencia con data limpia
 ``` bigquery
 
@@ -93,7 +125,8 @@ CREATE OR REPLACE VIEW data_chile.v_asistencia(
     DIAS_TRABAJADOS,
     ASIS_PROMEDIO,
     LAT_COMUNA, 
-    LONG_COMUNA
+    LONG_COMUNA,
+    TIPO_REGION
 ) AS (
 SELECT
     AGNO,
@@ -411,7 +444,8 @@ SELECT
     DIAS_TRABAJADOS,
     ASIS_PROMEDIO,
     LAT_COMUNA, 
-    LONG_COMUNA
+    LONG_COMUNA,
+    TIPO_REGION
   FROM
     `infinite-lens-352300.data_chile.asistencia` 
   WHERE 
@@ -448,5 +482,34 @@ SELECT
     ASIS_PROMEDIO IS NOT NULL
   )
 );
+```
+
+``` bigquery
+CREATE OR REPLACE VIEW `infinite-lens-352300.data_chile.v_asistencia_comuna` (
+  COMUNA, 
+  LATITUD_COMUNA,
+  LONGITUD_COMUNA,
+  PROMEDIO_ASISTENCIA,
+  DESV_STD_ASISTENCIA,
+  COUNT_ASISTENCIA,
+  TIPO_REGION)
+   AS 
+(
+SELECT
+    NOM_COM_RBD AS COMUNA,
+    LAT_COMUNA AS LATITUD_COMUNA,
+    LONG_COMUNA AS LONGITUD_COMUNA,
+    AVG(ASIS_PROMEDIO) AS PROMEDIO_ASISTENCIA,
+    STDDEV(ASIS_PROMEDIO) AS DESV_STD_ASISTENCIA,
+    COUNT(ASIS_PROMEDIO) AS COUNT_ASISTENCIA,
+    TIPO_REGION
+  FROM
+    `infinite-lens-352300.data_chile.v_asistencia` 
+  GROUP BY
+    NOM_COM_RBD,
+    LAT_COMUNA,
+    LONG_COMUNA,
+    TIPO_REGION
+)
 ```
 
