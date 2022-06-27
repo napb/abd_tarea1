@@ -111,11 +111,11 @@ for i in l:
     print(i)
 
     clean_not_csv_files()
-    load_csv_to_bq()
 
     a = a + 1
 
     if(a == 5):
+        load_csv_to_bq()
         delete_files()
         a = 0
 
