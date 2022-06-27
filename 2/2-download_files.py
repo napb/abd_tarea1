@@ -16,7 +16,7 @@ def delete_files():
     print("Elimina archivos!!!!")
     for f in os.listdir("../downloads"):
         print(f)
-        bashCommand = "rm -rf " + f
+        bashCommand = "rm -rf ./downloads" + f
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         o, _ = process.communicate()
         print(o)
