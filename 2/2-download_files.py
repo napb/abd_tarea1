@@ -8,8 +8,32 @@ Load function that's:
 
 import os
 import requests, zipfile, io
+import subprocess
 
 dir_name = "../downloads"
+
+def load_csv_to_bq():
+    print("Carga de archivos en BQ")
+    for f in os.listdir("../downloads"):
+        if f.endswith(".csv"):
+            print(f)
+            bashCommand = "bq load --null_marker=null --skip_leading_rows=1 --source_format=CSV --field_delimiter=; --allow_quoted_newlines=TRUE --allow_jagged_rows=TRUE data_chile.asistencia ../downloads/" + f
+            process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+            o, _ = process.communicate()
+            print(o)
+            print("--------")
+        print("------------------------------")
+
+def clean_not_csv_files():
+    print("------------------------------")
+    print("Limpieza de archivos que no corresponden a CSV")
+
+    for item in os.listdir(dir_name):
+        if not item.endswith(".csv"):
+            os.remove(os.path.join(dir_name, item))
+
+    print("------------------------------")
+
 
 '''
 "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Diciembre-2019.zip",
@@ -71,7 +95,6 @@ l = [
 ]
 
 os.makedirs(dir_name, exist_ok=True)
-
 print("Descarga de archivos")
 for i in l:
     r = requests.get(i)
@@ -80,11 +103,7 @@ for i in l:
     z.close()
     print(i)
 
-print("------------------------------")
-print("Limpieza de archivos que no corresponden a CSV")
+    clean_not_csv_files()
+    load_csv_to_bq()
 
-for item in os.listdir(dir_name):
-    if not item.endswith(".csv"):
-        os.remove(os.path.join(dir_name, item))
 
-print("------------------------------")
