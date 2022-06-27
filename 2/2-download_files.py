@@ -102,7 +102,14 @@ def clean_not_csv_files():
 l = [
     "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Diciembre-2019.zip",
     "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Noviembre-2019.zip",
-    "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Octubre-2019.zip"
+    "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Octubre-2019.zip",
+    "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Septiembre-2019.zip",
+    "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Agosto-2019.zip",
+    "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Julio-2019.zip",
+    "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Junio-2019.zip",
+    "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Mayo-2019.zip",
+    "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-abril-2019.zip",
+    "https://datosabiertos.mineduc.cl/wp-content/uploads/2021/12/Asistencia-Declarada-Marzo-2019.zip",
 ]
 
 os.makedirs(dir_name, exist_ok=True)
