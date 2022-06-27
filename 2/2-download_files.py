@@ -13,7 +13,7 @@ import subprocess
 dir_name = "../downloads"
 
 def delete_files():
-    print("Carga de archivos en BQ")
+    print("Elimina archivos")
     bashCommand = "rm -rf ../download"
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     o, _ = process.communicate()
