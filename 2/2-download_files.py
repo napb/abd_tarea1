@@ -14,14 +14,9 @@ dir_name = "../downloads"
 
 def delete_files():
     print("Elimina archivos!!!!")
-    for f in os.listdir("../downloads"):
-        print(f)
-        bashCommand = "rm -rf ./downloads" + f
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        o, _ = process.communicate()
-        print(o)
-        print("--------")
-        print("------------------------------")
+    for item in os.listdir(dir_name):
+            os.remove(os.path.join(dir_name, item))
+    print("------------------------------")
 
 def load_csv_to_bq():
     print("Carga de archivos en BQ")
