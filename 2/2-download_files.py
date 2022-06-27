@@ -12,6 +12,12 @@ import subprocess
 
 dir_name = "../downloads"
 
+def delete_files():
+    print("Carga de archivos en BQ")
+    bashCommand = "rm -rf ../download"
+    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+    o, _ = process.communicate()
+
 def load_csv_to_bq():
     print("Carga de archivos en BQ")
     for f in os.listdir("../downloads"):
@@ -96,6 +102,7 @@ l = [
 
 os.makedirs(dir_name, exist_ok=True)
 print("Descarga de archivos")
+a = 1
 for i in l:
     r = requests.get(i)
     z = zipfile.ZipFile(io.BytesIO(r.content))
@@ -105,5 +112,12 @@ for i in l:
 
     clean_not_csv_files()
     load_csv_to_bq()
+
+    a = a + 1
+
+    if(a == 5):
+        delete_files()
+        a = 0
+
 
 
