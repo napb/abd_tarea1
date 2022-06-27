@@ -1,7 +1,7 @@
 import subprocess
 import os
 
-print("Descarga de archivos")
+print("Carga de archivos en BQ")
 for f in os.listdir("../downloads"):
     if f.endswith(".csv"):
         print(f)

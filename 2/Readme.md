@@ -1,8 +1,6 @@
 0- poner lo que sea para descargar (unrar en linux) //TODO
 
-1- ejecucion de `python3 2-download_files.py`
-
-2- Creacion de tabla asistencia
+1- Creacion de tabla asistencia
 ``` bigquery
 DROP TABLE `infinite-lens-352300.data_chile.asistencia`;
 
@@ -42,5 +40,6 @@ OPTIONS(
   require_partition_filter=true
 )
 ```
+2- ejecucion de `python3 2-download_files.py`
 
 3- ejecucion de `python3 2-load-into-bq.py`

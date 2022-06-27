@@ -13,6 +13,8 @@ AND
 ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LAT_COMUNA STRING;
 ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_COMUNA STRING;
 ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN TIPO_REGION STRING;
+ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LAT_REGION STRING;
+ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_REGION STRING;
 ```
 2.1- ejecuta para limpiar la tabla info_comunas
 
@@ -37,7 +39,24 @@ FROM
 WHERE 
   a.NOM_COM_RBD = UPPER(b.NOMBRE)
 AND 
-  a.MES_ESCOLAR IS NOT NULL
+  a.MES_ESCOLAR IS NOT NULL;
+
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '18°28′30″', LONG_REGION = '70°18′52″' WHERE COD_REG_RBD = 15 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '20°17′00″', LONG_REGION = '69°20′00″' WHERE COD_REG_RBD = 1 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '23°38′39″', LONG_REGION = '70°24′39″' WHERE COD_REG_RBD = 2 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '27°22′00″', LONG_REGION = '70°19′56″' WHERE COD_REG_RBD = 3 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '29°54′28″', LONG_REGION = '71°15′15″' WHERE COD_REG_RBD = 4 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '33°03′47″', LONG_REGION = '71°38′22″' WHERE COD_REG_RBD = 5 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '33°26′16″', LONG_REGION = '70°39′01″' WHERE COD_REG_RBD = 13 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '34°22′19″', LONG_REGION = '71°07′28″' WHERE COD_REG_RBD = 6 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '35°25′36″', LONG_REGION = '71°40′18″' WHERE COD_REG_RBD = 7 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '36°37′00″', LONG_REGION = '71°57′00″' WHERE COD_REG_RBD = 16 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '36°46′22″', LONG_REGION = '73°03′47″' WHERE COD_REG_RBD = 8 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '38°54′00″', LONG_REGION = '72°40′00″' WHERE COD_REG_RBD = 9 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '39°48′30″', LONG_REGION = '73°14′30″' WHERE COD_REG_RBD = 14 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '41°28′18″', LONG_REGION = '72°56′12″' WHERE COD_REG_RBD = 10 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '45°34′12″', LONG_REGION = '72°03′58″' WHERE COD_REG_RBD = 11 AND MES_ESCOLAR IS NOT NULL;
+UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '53°09′45″', LONG_REGION = '70°55′21″' WHERE COD_REG_RBD = 12 AND MES_ESCOLAR IS NOT NULL;
 ```
 deben ser 345 registros (con todas las comunas)
 ``` bigquery
