@@ -108,6 +108,7 @@ l = [
 ]
 
 os.makedirs(dir_name, exist_ok=True)
+delete_files()
 print("Descarga de archivos")
 for i in l:
     r = requests.get(i)
