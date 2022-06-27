@@ -102,7 +102,6 @@ l = [
 
 os.makedirs(dir_name, exist_ok=True)
 print("Descarga de archivos")
-a = 1
 for i in l:
     r = requests.get(i)
     z = zipfile.ZipFile(io.BytesIO(r.content))
@@ -111,13 +110,10 @@ for i in l:
     print(i)
 
     clean_not_csv_files()
+    load_csv_to_bq()
+    delete_files()
 
-    a = a + 1
-
-    if(a == 5):
-        load_csv_to_bq()
-        delete_files()
-        a = 0
+    print("######################################################################")
 
 
 
