@@ -22,7 +22,8 @@ sudo cp -v rar unrar /usr/local/bin/ #copia binarios a carpeta de binarios del u
 
 ### 2.2 - DDL de creacion de tabla ```asistencia``` en BigQuery
 
-La tabla ```asistencia``` sera la encargada de poder albergar los datos obtenidos desde los datasets de asistencia de MINEDUC. Para la creacion de la tabla, se ocupa la siguente expresion DDL
+La tabla ```asistencia``` sera la encargada de poder albergar los datos obtenidos desde los datasets de asistencia de MINEDUC. 
+Para la creacion de la tabla, se debe ejecutar la siguente sentencia DDL en el editor de BigQuery
 
 ``` bigquery
 DROP TABLE `infinite-lens-352300.data_chile.asistencia`;
@@ -72,5 +73,5 @@ Esto con el fin de no sobrepasar la [cuota de almacenamiento](https://cloud.goog
 Desde Google Cloud Shell, se debe ejecutar el siguente comando para iniciar la descarga de datasets y generar la carga de .csv en BigQuery:
 
 ``` commandline
-python3 2-download_files.py
+python3 2/2-download_files.py
 ```

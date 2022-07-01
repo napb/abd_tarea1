@@ -28,7 +28,7 @@ ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LAT_REGION S
 ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_REGION STRING;
 ```
 
-# 3.2 - Limpieza de campo ```ASIS_PROMEDIO``` dentro de tabla ```asistencia```
+### 3.2 - Limpieza de campo ```ASIS_PROMEDIO``` dentro de tabla ```asistencia```
 
 Al hacer la carga de datos, se detecta que el campo ASIS_PROMEDIO se representa con el porcentaje de asistencia, es decir, entre los campos DIAS_ASISTIDOS y DIAS_TRABAJADOS. 
 Este campo queda en BigQuery como ```1``` en el caso de que el estudiante tenga un 100% de asistencia, y en los demas casos, se representa con el patron ```XY.YZ```. 
@@ -43,22 +43,37 @@ AND
   DIAS_TRABAJADOS != 0;
 ```
 
-### 3.3 - Generacion de datos de coordenadas geograficas
+### 3.3 - Generacion de datos de coordenadas geograficas en tabla ```info_comunas```
 
-2.1- ejecuta para limpiar la tabla info_comunas
+Originalmente los dataset (archivos ```.csv```) de asistencia, no contienen datos de las coordenadas geograficas de las comunas o regiones de Chile, 
+con esto, se disponibiliza un archivo con esta informacion en [github.com/napb](https://github.com/napb/abd_tarea1/blob/master/3/comunas.csv) 
+el cual es cargado en bigquery en la tabla ```info_comunas``` de BigQuery, con la ejecucion del siguente comando en Google Cloud Shell
 
-``` bigquery
-update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "CALERA" WHERE UPPER(NOMBRE)  =   "LA CALERA";
-update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "MAULLIN" WHERE UPPER(NOMBRE)  =   "MAULLIN";
-update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "TREHUACO" WHERE UPPER(NOMBRE)  =   "TREGUACO";
-update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "PAIGUANO" WHERE UPPER(NOMBRE)  =   "PAIHUANO";
-update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "VICHUQUEN" WHERE UPPER(NOMBRE)  =   "VICHUQUEN";
-update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "LLAILLAY" WHERE UPPER(NOMBRE)  =   "LLAY-LLAY";
-update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "TILTIL" WHERE UPPER(NOMBRE)  =   "TIL TIL";
-update `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE =   "RANQUIL" WHERE UPPER(NOMBRE)  =   "RANQUIL";
+``` commandline
+python3 3/3-load-comunas-file.py
 ```
 
-3- ejecuta en BQ para modificar tabla asistencia la latitud y longitud
+### 3.4 - Limpieza de datos de comunas en tabla ```info_comunas```
+
+Hay comunas y localidades dentro de Chile, que tienen nombres confusos, dando resultados erroneos al hacer ```joins``` con tablas.
+Para poder realizar acciones de pareo en la informacion se generan las siguentes sentencias DML: 
+
+``` bigquery
+UPDATE `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE = "CALERA" WHERE UPPER(NOMBRE) = "LA CALERA";
+UPDATE `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE = "MAULLIN" WHERE UPPER(NOMBRE) = "MAULLIN";
+UPDATE `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE = "TREHUACO" WHERE UPPER(NOMBRE) = "TREGUACO";
+UPDATE `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE = "PAIGUANO" WHERE UPPER(NOMBRE) = "PAIHUANO";
+UPDATE `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE = "VICHUQUEN" WHERE UPPER(NOMBRE) = "VICHUQUEN";
+UPDATE `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE = "LLAILLAY" WHERE UPPER(NOMBRE) = "LLAY-LLAY";
+UPDATE `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE = "TILTIL" WHERE UPPER(NOMBRE) = "TIL TIL";
+UPDATE `infinite-lens-352300.data_chile.info_comunas` SET NOMBRE = "RANQUIL" WHERE UPPER(NOMBRE) = "RANQUIL";
+```
+
+### 3.5 - Insercion de datos de coordenadas geograficas de comunas en tabla ```asistencia``` a partir de informacion en tabla ```info_comunas```
+
+Para generar la informacion de coordenadas geograficas dentro de la tabla ```asistencia```, llenando los campos ```LAT_COMUNA``` y ```LONG_COMUNA```, 
+se genera la siguente sentencia DML para poder sacar estos datos desde la tabla ```info_comunas``` hacia ```asistencia```
+
 ``` bigquery
 UPDATE `infinite-lens-352300.data_chile.asistencia` a SET
   a.LAT_COMUNA = b.LATTITUD,
@@ -69,7 +84,30 @@ WHERE
   REGEXP_REPLACE(NORMALIZE(UPPER(a.NOM_COM_RBD), NFD), r'\pM', '') = REGEXP_REPLACE(NORMALIZE(UPPER(b.NOMBRE), NFD), r'\pM', '')
 AND 
   a.MES_ESCOLAR IS NOT NULL;
+```
 
+Para la validacion de esta ejecucion en la tabla asistencia, se debe ejecutar la siguente sentencia, la cual debe retornar 345 elementos (correspondientes a las 345 comunas de Chile):
+``` bigquery
+SELECT
+    NOM_COM_RBD,
+    LAT_COMUNA,
+    LONG_COMUNA  
+FROM 
+  `infinite-lens-352300.data_chile.asistencia`
+WHERE 
+  MES_ESCOLAR IS NOT NULL
+GROUP BY
+  NOM_COM_RBD,
+  LAT_COMUNA,
+  LONG_COMUNA
+```
+
+### 3.6 - Insercion de datos de coordenadas geograficas de regiones en tabla ```asistencia```
+
+Para generar la informacion de coordenadas geograficas dentro de la tabla ```asistencia```, llenando los campos ```LAT_REGION``` y ```LONG_REGION```, 
+se genera la siguente sentencia DML:
+
+``` bigquery
 UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '18°28′30″', LONG_REGION = '70°18′52″' WHERE COD_REG_RBD = 15 AND MES_ESCOLAR IS NOT NULL;
 UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '20°17′00″', LONG_REGION = '69°20′00″' WHERE COD_REG_RBD = 1 AND MES_ESCOLAR IS NOT NULL;
 UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '23°38′39″', LONG_REGION = '70°24′39″' WHERE COD_REG_RBD = 2 AND MES_ESCOLAR IS NOT NULL;
@@ -87,7 +125,8 @@ UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '41°28′1
 UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '45°34′12″', LONG_REGION = '72°03′58″' WHERE COD_REG_RBD = 11 AND MES_ESCOLAR IS NOT NULL;
 UPDATE `infinite-lens-352300.data_chile.asistencia` SET LAT_REGION = '53°09′45″', LONG_REGION = '70°55′21″' WHERE COD_REG_RBD = 12 AND MES_ESCOLAR IS NOT NULL;
 ```
-deben ser 345 registros (con todas las comunas)
+
+Para la validacion de esta ejecucion en la tabla asistencia, se debe ejecutar la siguente sentencia, la cual debe retornar 16 elementos (correspondientes a las 16 regiones de Chile):
 ``` bigquery
 SELECT
     NOM_COM_RBD,
@@ -102,6 +141,12 @@ GROUP BY
   LAT_COMUNA,
   LONG_COMUNA
 ```
+
+### 3.7 - Insercion de datos ubicacion de regiones de Chile
+
+Con motivo de la ultima sub-division de regiones de Chile, se genera el campo ```TIPO_REGION``` 
+para poder ubicar al usuario en el caso de necesitar saber en que lugar fisico se encuentra cada territorio. Para esto 
+se debe ejecutar la siguente sentencia DML:
 
 ``` bigquery
 UPDATE `infinite-lens-352300.data_chile.asistencia` SET 
@@ -134,7 +179,15 @@ WHERE
   MES_ESCOLAR IS NOT NULL;
 ```
 
-4- DDL vista asistencia con data limpia
+### 3.8 - Vistas para obtencion de datos
+
+Con motivo de obtencion de manera mas acotada y limpia de datos, se generan las vistas 
+
+- ```v_asistencia```
+- ```v_asistencia_comuna```
+- ```v_asistencia_region_anio``` 
+- ```v_asistencia_region_mes_anio``` 
+
 ``` bigquery
 
 CREATE OR REPLACE VIEW data_chile.v_asistencia(
