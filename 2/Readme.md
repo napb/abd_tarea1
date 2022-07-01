@@ -2,7 +2,16 @@
 
 Seccion para la obtencion de datasets desde [informe de asistencia de MINEDUC](https://datosabiertos.mineduc.cl/asistencia-declarada-mensual-2/) y Carga de estos datasets en BigQuery 
 
+**Tabla contenidos de seccion**
+
+- [2.1 - Instalacion de UnRar en Google Cloud Shell](#2.1-Instalacion-de-UnRar-en-Google-Cloud-Shell)
+- [2.2 - DDL de creacion de tabla ```asistencia``` en BigQuery](#2.2-DDL-de-creacion-de-tabla-asistencia-en-BigQuery)
+- [2.3 Descarga de datasets desde MINEDUC y Carga de archivos .csv en BigQuery](#2.3-Descarga-de-datasets-desde-MINEDUC-y-Carga de archivos-.csv-en-BigQuery)
+
+
 ### 2.1 - Instalacion de UnRar en Google Cloud Shell
+
+Se debe ejecutar los comandos provistos en el apartado, para poder descomprimir archivos ```*.rar``` dentro de Google Cloud Shell
 
 ```
 wget https://www.rarlab.com/rar/rarlinux-x64-5.6.0.tar.gz #descarga unrar
@@ -60,7 +69,7 @@ OPTIONS(
 Para la descarga de los datasets, se genera una lista, con los dataset escogidos y luego al procesar esta lista, se procesa la descarga y carga de archivos .csv a BigQuery, uno a uno. 
 Esto con el fin de no sobrepasar la [cuota de almacenamiento](https://cloud.google.com/shell?hl=es) de Google Cloud Shell de 5GB.
 
-El comando para iniciar la descarda de datasets y generar la carga de .csv en BigQuery es a traves del comando
+Desde Google Cloud Shell, se debe ejecutar el siguente comando para iniciar la descarga de datasets y generar la carga de .csv en BigQuery:
 
 ``` commandline
 python3 2-download_files.py
