@@ -75,3 +75,4 @@ Desde Google Cloud Shell, se debe ejecutar el siguente comando para iniciar la d
 ``` commandline
 python3 2/2-download_files.py
 ```
+![](../images/2-visualizacion-bigquery.png)

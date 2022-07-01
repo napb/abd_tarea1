@@ -18,3 +18,5 @@ Notebook:
 
 Ambiente:
     Tipo maquina -> N1 High-Memory -> N1 High-Mem 16
+
+![](../images/5-notebook.png)
