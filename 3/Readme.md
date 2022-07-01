@@ -4,9 +4,14 @@ Seccion destinada para la limpieza y transformacion y generacion de nuevos datos
 
 **Tabla contenidos de seccion**
 
-- [2.1 - Instalacion de UnRar en Google Cloud Shell](#2.1-Instalacion-de-UnRar-en-Google-Cloud-Shell)
-- [2.2 - DDL de creacion de tabla ```asistencia``` en BigQuery](#2.2-DDL-de-creacion-de-tabla-asistencia-en-BigQuery)
-- [2.3 Descarga de datasets desde MINEDUC y Carga de archivos .csv en BigQuery](#2.3-Descarga-de-datasets-desde-MINEDUC-y-Carga de archivos-.csv-en-BigQuery)
+- [3.1 - Generacion de ubicaciones geograficas en tabla ```asistencia```](#3.1-Generacion-de-ubicaciones-geograficas-en-tabla-asistencia)
+- [3.2 - Limpieza de campo ```ASIS_PROMEDIO``` dentro de tabla ```asistencia```](#3.2-Limpieza-de-campo-ASIS_PROMEDIO-dentro-de-tabla-asistencia)
+- [3.3 - Generacion de datos de coordenadas geograficas en tabla ```info_comunas```](#3.3-Generacion-de-datos-de-coordenadas-geograficas-en-tabla-info_comunas)
+- [3.4 - Limpieza de datos de comunas en tabla ```info_comunas```](#3.4-Limpieza-de-datos-de-comunas-en-tabla-info_comunas)
+- [3.5 - Insercion de datos de coordenadas geograficas de comunas en tabla ```asistencia``` a partir de informacion en tabla ```info_comunas```](#3.5-Insercion-de-datos-de-coordenadas-geograficas-de-comunas-en-tabla-asistencia-a-partir-de-informacion-en-tabla-info_comunas)
+- [3.6 - Insercion de datos de coordenadas geograficas de regiones en tabla ```asistencia```](#3.6-Insercion-de-datos-de-coordenadas-geograficas-de-regiones-en-tabla-asistencia)
+- [3.7 - Insercion de datos ubicacion de regiones de Chile](#3.7-Insercion-de-datos-ubicacion-de-regiones-de-Chile)
+- [3.8 - Vistas para obtencion de datos](#3.8-Vistas-para-obtencion-de-datos)
 
 ### 3.1 - Generacion de ubicaciones geograficas en tabla ```asistencia```
 
