@@ -188,8 +188,9 @@ Con motivo de obtencion de manera mas acotada y limpia de datos, se generan las 
 - ```v_asistencia_region_anio``` 
 - ```v_asistencia_region_mes_anio``` 
 
-``` bigquery
+Para la creacion de estas vistas, se generan las siguentes sentencias DDL que deben ser ejecutadas en el editor de BigQuery:
 
+``` bigquery
 CREATE OR REPLACE VIEW data_chile.v_asistencia(
     AGNO,
     MES_ESCOLAR,
