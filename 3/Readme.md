@@ -1,4 +1,39 @@
-1- ejecuta para limpiar la asistencia
+# 3 - Transformación y complemento de datos
+
+Seccion destinada para la limpieza y transformacion y generacion de nuevos datos/campos dentro de BigQuery 
+
+**Tabla contenidos de seccion**
+
+- [2.1 - Instalacion de UnRar en Google Cloud Shell](#2.1-Instalacion-de-UnRar-en-Google-Cloud-Shell)
+- [2.2 - DDL de creacion de tabla ```asistencia``` en BigQuery](#2.2-DDL-de-creacion-de-tabla-asistencia-en-BigQuery)
+- [2.3 Descarga de datasets desde MINEDUC y Carga de archivos .csv en BigQuery](#2.3-Descarga-de-datasets-desde-MINEDUC-y-Carga de archivos-.csv-en-BigQuery)
+
+### 3.1 - Generacion de ubicaciones geograficas en tabla ```asistencia```
+
+Con el fin de generar datos de ubicacion geografica de las comunas y regiones en la tabla ```asistencia```, se generan los campos 
+
+- LAT_COMUNA: representando la latitud de la comuna
+- LONG_COMUNA: representando la longitud de la comuna
+- TIPO_REGION: representando si es una region que se encuentra en el extremo NORTE, CENTRO o SUR de Chile
+- LAT_REGION: representando la latitud de la region
+- LONG_REGION: representando la longitud de la region
+
+Para la generacion de estos campos, se debe ejecutar las siguentes sentencias DDL desde el editor de BigQuery:
+
+``` bigquery
+ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LAT_COMUNA STRING;
+ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_COMUNA STRING;
+ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN TIPO_REGION STRING;
+ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LAT_REGION STRING;
+ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_REGION STRING;
+```
+
+# 3.2 - Limpieza de campo ```ASIS_PROMEDIO``` dentro de tabla ```asistencia```
+
+Al hacer la carga de datos, se detecta que el campo ASIS_PROMEDIO se representa con el porcentaje de asistencia, es decir, entre los campos DIAS_ASISTIDOS y DIAS_TRABAJADOS. 
+Este campo queda en BigQuery como ```1``` en el caso de que el estudiante tenga un 100% de asistencia, y en los demas casos, se representa con el patron ```XY.YZ```. 
+Para subsanar esto se debe ejecutar la sentencia DML: 
+
 ``` bigquery
 UPDATE `infinite-lens-352300.data_chile.asistencia` SET
   ASIS_PROMEDIO = ((DIAS_ASISTIDOS * 100) / DIAS_TRABAJADOS)
@@ -8,14 +43,8 @@ AND
   DIAS_TRABAJADOS != 0;
 ```
 
-2-  ejecuta en BQ para añadir nuevas columnas LAT, LONG
-``` bigquery
-ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LAT_COMUNA STRING;
-ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_COMUNA STRING;
-ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN TIPO_REGION STRING;
-ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LAT_REGION STRING;
-ALTER TABLE `infinite-lens-352300.data_chile.asistencia` ADD COLUMN LONG_REGION STRING;
-```
+### 3.3 - Generacion de datos de coordenadas geograficas
+
 2.1- ejecuta para limpiar la tabla info_comunas
 
 ``` bigquery
